@@ -1,0 +1,35 @@
+INFO:werkzeug: * Detected change in 'C:\\Users\\kate2\\dressmeup\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+DEBUG:botocore.hooks:Changing event name from creating-client-class.iot-data to creating-client-class.iot-data-plane
+DEBUG:botocore.hooks:Changing event name from before-call.apigateway to before-call.api-gateway
+DEBUG:botocore.hooks:Changing event name from request-created.machinelearning.Predict to request-created.machine-learning.Predict
+DEBUG:botocore.hooks:Changing event name from before-parameter-build.autoscaling.CreateLaunchConfiguration to before-parameter-build.auto-scaling.CreateLaunchConfiguration
+DEBUG:botocore.hooks:Changing event name from before-parameter-build.route53 to before-parameter-build.route-53
+DEBUG:botocore.hooks:Changing event name from request-created.cloudsearchdomain.Search to request-created.cloudsearch-domain.Search
+DEBUG:botocore.hooks:Changing event name from docs.*.autoscaling.CreateLaunchConfiguration.complete-section to docs.*.auto-scaling.CreateLaunchConfiguration.complete-section
+DEBUG:botocore.hooks:Changing event name from before-parameter-build.logs.CreateExportTask to before-parameter-build.cloudwatch-logs.CreateExportTask
+DEBUG:botocore.hooks:Changing event name from docs.*.logs.CreateExportTask.complete-section to docs.*.cloudwatch-logs.CreateExportTask.complete-section
+DEBUG:botocore.hooks:Changing event name from before-parameter-build.cloudsearchdomain.Search to before-parameter-build.cloudsearch-domain.Search
+DEBUG:botocore.hooks:Changing event name from docs.*.cloudsearchdomain.Search.complete-section to docs.*.cloudsearch-domain.Search.complete-section
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\endpoints.json
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\sdk-default-configuration.json
+DEBUG:botocore.hooks:Event choose-service-name: calling handler <function handle_service_name_alias at 0x0000020A631F1310>
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\s3\2006-03-01\service-2.json.gz
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\s3\2006-03-01\endpoint-rule-set-1.json.gz
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\partitions.json
+DEBUG:botocore.hooks:Event creating-client-class.s3: calling handler <function add_generate_presigned_post at 0x0000020A63013280>
+DEBUG:botocore.hooks:Event creating-client-class.s3: calling handler <function lazy_call.<locals>._handler at 0x0000020A60205790>
+DEBUG:botocore.hooks:Event creating-client-class.s3: calling handler <function add_generate_presigned_url at 0x0000020A63013040>
+DEBUG:botocore.configprovider:Looking for endpoint for s3 via: environment_service
+DEBUG:botocore.configprovider:Looking for endpoint for s3 via: environment_global
+DEBUG:botocore.configprovider:Looking for endpoint for s3 via: config_service
+DEBUG:botocore.configprovider:Looking for endpoint for s3 via: config_global
+DEBUG:botocore.configprovider:No configured endpoint found.
+DEBUG:botocore.endpoint:Setting s3 timeout as (60, 60)
+DEBUG:botocore.loaders:Loading JSON file: C:\Users\kate2\anaconda3\envs\dressmeup_env\lib\site-packages\botocore\data\_retry.json
+DEBUG:botocore.client:Registering retry handlers for service: s3
+DEBUG:botocore.utils:Registering S3 region redirector handler
+DEBUG:botocore.utils:Registering S3Express Identity Resolver
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 347-372-053
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
