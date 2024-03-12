@@ -2,4 +2,4 @@
 cloth-segmentation/model/cloth_segm.pth
 https://drive.google.com/drive/folders/1SphcENsSqJtFs9iVxzoSheV9OMYZC821
 
-2. clothsegmentation.py 에서 requirement.txt 파일을 install 하고 실행하면 상의, 하의 , 드레스를 구별해줌
+2. clothsegmentation.py 에서 requirement.txt 파일을 install 하고 실행하면 top, bottom, dress/skirt를 구별해줌
