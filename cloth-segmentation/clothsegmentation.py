@@ -25,6 +25,8 @@ def run_commands(image_path):
 image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
 run_commands(image_path)
 
+
+
 import cv2
 
 def check_colors_in_image_cv(image_path):
@@ -37,8 +39,8 @@ def check_colors_in_image_cv(image_path):
     green_lower = (0, 100, 0)
     green_upper = (100, 255, 100)
 
-    cyan_lower = (50, 50, 0)
-    cyan_upper = (255, 255, 100)
+    cyan_lower = (0, 100, 100)
+    cyan_upper = (255, 150, 150)
 
     # Create masks
     red_mask = cv2.inRange(img_rgb, red_lower, red_upper)
@@ -52,15 +54,15 @@ def check_colors_in_image_cv(image_path):
 
     # Determine the type of clothing
     if red_found:
-        a = "상의"
-    elif green_found:
-        a = "하의"
-    else :
-       a = "원피스"
+        a = "top"
+    elif cyan_found:
+        a = "dress,skirt"
+    else:
+        a = "bottom"
 
     return a
 
 # Example usage
-image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg1.png"
+image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
 result = check_colors_in_image_cv(image_path)
-##print(result)
+#print(result)
