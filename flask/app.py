@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, request
+import person_segmentation
 from config import connection
 import boto3
 from PIL import Image
 from io import BytesIO
 import uuid
 import logging
-import pymysql
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB까지 허용 (원하는 크기로 조절 가능)
@@ -58,7 +58,8 @@ def modelImage():
         userId = request.form['userId']
 
         # ml 사람 누끼따는 함수. 이미지 바이트로 변환
-        image_pil = Image.fromarray(person_image.astype(np.uint8))
+        image_pil = person_segmentation.segment_person(
+            r"C:\Users\kate2\PycharmProjects\DressMeUp-CV\flask\1174018_1_220.jpg")
         image_bytes_io = BytesIO()
         image_pil.save(image_bytes_io, format='JPEG')  # 이미지 형식에 따라 format을 조절하세요
         image_bytes_io.seek(0)
