@@ -12,39 +12,33 @@ from torchvision import transforms
 from PIL import Image
 import torch
 import numpy as np
-import matplotlib.pyplot as plt
 
-image_path = "/content/나.jpg"
-model_save = '/content/나_누끼.jpg'
+def segment_person(image_path):
+    # GPU 사용 가능 여부 확인
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# GPU 사용 가능 여부 확인
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # 모델 불러오기 및 GPU로 이동
+    model = deeplabv3_resnet101(pretrained=True).eval().to(device)
 
-# 모델 불러오기 및 GPU로 이동
-model = deeplabv3_resnet101(pretrained=True).eval().to(device)
+    # 이미지 전처리 및 모델 입력으로 변환 및 GPU로 이동
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    image = Image.open(image_path).convert('RGB')
+    input_tensor = transform(image).unsqueeze(0).to(device)
 
-# 이미지 전처리 및 모델 입력으로 변환 및 GPU로 이동
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-])
-image = Image.open(image_path).convert('RGB')
-input_tensor = transform(image).unsqueeze(0).to(device)
+    # 예측
+    with torch.no_grad():
+        output = model(input_tensor)['out'][0]
+    output_predictions = output.argmax(0)
 
-# 예측
-with torch.no_grad():
-    output = model(input_tensor)['out'][0]
-output_predictions = output.argmax(0)
+    # 사람 클래스에 해당하는 픽셀 식별
+    person_mask = (output_predictions == 15)  # COCO 데이터셋에서 사람 클래스의 레이블은 15입니다.
 
-# 사람 클래스에 해당하는 픽셀 식별
-person_mask = (output_predictions == 15)  # COCO 데이터셋에서 사람 클래스의 레이블은 15입니다.
+    # 원본 이미지에서 사람 부분만 추출 또는 시각화
+    original_image = np.array(image)
+    person_image = np.ones_like(original_image) * 255  # 흰색 배경으로 초기화
+    person_image[person_mask.cpu().numpy()] = original_image[person_mask.cpu().numpy()]
 
-# 원본 이미지에서 사람 부분만 추출 또는 시각화
-original_image = np.array(image)
-person_image = np.ones_like(original_image) * 255  # 흰색 배경으로 초기화
-person_image[person_mask.cpu().numpy()] = original_image[person_mask.cpu().numpy()]
-
-# 이미지를 GPU에서 CPU로 이동하여 저장
-person_image_pil = Image.fromarray(person_image.astype(np.uint8))
-person_image_pil.save(model_save)
-
+    return Image.fromarray(person_image.astype(np.uint8))
