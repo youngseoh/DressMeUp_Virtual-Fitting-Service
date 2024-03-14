@@ -10,7 +10,4 @@ cloth-segmentation/long_short_segmentation.pth
 
 
 
-3. clothsegmentation.py 에서 requirement.txt 파일을 install 하고 실행하면 top, bottom, dress/skirt를 구별해줌
-
-
 
