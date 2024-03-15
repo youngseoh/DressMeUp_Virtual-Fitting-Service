@@ -53,14 +53,6 @@ def check_colors_in_image_cv(image_path):
     cyan_found = cv2.countNonZero(cyan_mask)
 
     
-    if red_found > 0:
-        a = "top"
-    elif cyan_found > 0:
-        a = "dress,skirt"
-    elif green_found > 0:
-        a = "bottom"
-    else:
-        a = "unknown"
 
     if sum(x > 0 for x in [red_found, green_found, cyan_found]) >= 2:
         areas = [red_found, green_found, cyan_found]
