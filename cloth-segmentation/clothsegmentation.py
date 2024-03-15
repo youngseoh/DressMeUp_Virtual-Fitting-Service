@@ -32,7 +32,7 @@ import cv2
 def check_colors_in_image_cv(image_path):
     img_rgb = cv2.imread(image_path)
 
-    # Define color ranges
+    
     red_lower = (0, 0, 100)
     red_upper = (100, 100, 255)
 
@@ -42,25 +42,49 @@ def check_colors_in_image_cv(image_path):
     cyan_lower = (0, 100, 100)
     cyan_upper = (255, 150, 150)
 
-    # Create masks
+    
     red_mask = cv2.inRange(img_rgb, red_lower, red_upper)
     green_mask = cv2.inRange(img_rgb, green_lower, green_upper)
     cyan_mask = cv2.inRange(img_rgb, cyan_lower, cyan_upper)
 
-    # Check if colors are found
-    red_found = cv2.countNonZero(red_mask) > 0
-    green_found = cv2.countNonZero(green_mask) > 0
-    cyan_found = cv2.countNonZero(cyan_mask) > 0
+    
+    red_found = cv2.countNonZero(red_mask)
+    green_found = cv2.countNonZero(green_mask)
+    cyan_found = cv2.countNonZero(cyan_mask)
 
-    # Determine the type of clothing
-    if red_found:
+    
+    if red_found > 0:
         a = "top"
-    elif cyan_found:
+    elif cyan_found > 0:
         a = "dress,skirt"
-    else:
+    elif green_found > 0:
         a = "bottom"
+    else:
+        a = "unknown"
 
+    if sum(x > 0 for x in [red_found, green_found, cyan_found]) >= 2:
+        areas = [red_found, green_found, cyan_found]
+        max_area_index = areas.index(max(areas))
+        if max_area_index == 0:
+            a = "top"
+        elif max_area_index == 2:
+            a = "dress,skirt"
+        else:
+            a = "bottom"
+
+    else:
+      if red_found:
+        a = "top"
+      elif cyan_found:
+         a = "dress,skirt"
+      else:
+        a = "bottom"
     return a
+
+
+image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
+result = check_colors_in_image_cv(image_path)
+print(result)
 
 # Example usage
 image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
