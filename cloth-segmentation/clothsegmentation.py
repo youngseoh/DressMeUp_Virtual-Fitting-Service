@@ -73,11 +73,6 @@ def check_colors_in_image_cv(image_path):
         a = "bottom"
     return a
 
-
-image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
-result = check_colors_in_image_cv(image_path)
-print(result)
-
 # Example usage
 image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
 result = check_colors_in_image_cv(image_path)
