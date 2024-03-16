@@ -9,11 +9,11 @@ Original file is located at
 
 import cv2
 import numpy as np
-from google.colab.patches import cv2_imshow
+# from google.colab.patches import cv2_imshow
 
 
-image_path ="/content/drive/MyDrive/dressmeup/human-pose-estimation-opencv/달리남자2.webp"
-cloth_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_final.png"
+# image_path ="/content/drive/MyDrive/dressmeup/human-pose-estimation-opencv/달리남자2.webp"
+# cloth_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_final.png"
 
 
 def longdress(image_path, cloth_path):
@@ -120,4 +120,4 @@ def longdress(image_path, cloth_path):
 
     return result
 
-result_image = longdress(image_path, cloth_path)
+# result_image = longdress(image_path, cloth_path)

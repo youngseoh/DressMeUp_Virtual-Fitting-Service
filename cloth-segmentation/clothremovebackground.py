@@ -80,14 +80,25 @@ def process_cloth_image(cloth_parsing_path, cloth_path, result):
       cv2.drawContours(result_image, [contour], 0, (255, 255, 255), thickness=cv2.FILLED)
       result_image = cv2.bitwise_and(cloth_image, result_image)
 
-  return result_image
+  output=remove(result_image)
+  gray = cv2.cvtColor(output, cv2.COLOR_BGR2GRAY)
+  _, thresh = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY)
+  contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+  max_contour = max(contours, key=cv2.contourArea)
+  x, y, w, h = cv2.boundingRect(max_contour)
+  cropped_image = output[y:y+h, x:x+w]
+
+
+  return cropped_image
 
 
 
-result_image=process_cloth_image(cloth_parsing_path, cloth_path, result)
-cv2.imwrite("/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_cutout.png",result_image)
-input = Image.open("/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_cutout.png")
-output = remove(input) # remove background
-# 누끼딴 이미지는 cloth_cutout_final에 저장
-output.save("/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_cutout_final.png")
+# result_image=process_cloth_image(cloth_parsing_path, cloth_path, result)
+# output_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_final1.png"
+# cv2.imwrite(output_path, result_image)
+# cv2_imshow(result_image)
+
+
+
+
 
