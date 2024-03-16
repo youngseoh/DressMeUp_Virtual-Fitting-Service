@@ -7,8 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1xfIyyK051qGt2QJDdIl0oOlouH4u2oFf
 """
 
-# 실행해주어야함
-!pip install rembg
+# # 실행해주어야함
+# !pip install rembg
 
 import cv2
 import numpy as np
@@ -17,12 +17,12 @@ from rembg import remove
 from PIL import Image
 
 
-# 이미지 경로
-cloth_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
-cloth_parsing_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg1.png"
+# # 이미지 경로
+# cloth_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
+# cloth_parsing_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg1.png"
 
 
-result="bottom"
+# result="bottom"
 
 
 def process_cloth_image(cloth_parsing_path, cloth_path, result):

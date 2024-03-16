@@ -22,8 +22,8 @@ def run_commands(image_path):
     subprocess.run(app_command, shell=True)
 
 # 함수 실행
-image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
-run_commands(image_path)
+# image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
+# run_commands(image_path)
 
 
 
@@ -73,7 +73,7 @@ def check_colors_in_image_cv(image_path):
         a = "bottom"
     return a
 
-# Example usage
-image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
-result = check_colors_in_image_cv(image_path)
-#print(result)
+# # Example usage
+# image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/output/cloth_seg/final_seg.png"
+# result = check_colors_in_image_cv(image_path)
+# #print(result)
