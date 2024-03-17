@@ -104,7 +104,7 @@ def shortdress(image_path, cloth_path):
 
     # 변환 행렬 계산
     pts_src = np.float32([[0, 0], [cloth.shape[1], 0], [cloth.shape[1], cloth.shape[0]], [0, cloth.shape[0]]])
-    pts_dst = np.float32([LShoulder1, RShoulder1, RKnee1, LKnee1])
+    pts_dst = np.float32([RShoulder1, LShoulder1, LKnee1, RKnee1])
     matrix = cv2.getPerspectiveTransform(pts_src, pts_dst)
 
     # 옷 이미지를 메인 이미지에 변환하여 오버레이

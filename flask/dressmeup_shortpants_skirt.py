@@ -100,12 +100,12 @@ def shortpants_skirt(image_path, cloth_path):
 
     LHip1 = (LHip[0] - int(x_diffhip), HIP1+int(y_left))
     RHip1 = (RHip[0] + int(x_diffhip), HIP1+int(y_right))
-    LKnee1 = (LKnee[0] - int(x_diffknee), LKnee[1]-int(y_left))
-    RKnee1 = (RKnee[0] + int(x_diffknee), RKnee[1]-int(y_right))
+    LKnee1 = (LKnee[0] - int(x_diffknee), LKnee[1]+int(y_left))
+    RKnee1 = (RKnee[0] + int(x_diffknee), RKnee[1]+int(y_right))
 
     # 변환 행렬 계산
     pts_src = np.float32([[0, 0], [cloth.shape[1], 0], [cloth.shape[1], cloth.shape[0]], [0, cloth.shape[0]]])
-    pts_dst = np.float32([LHip1, RHip1, RKnee1, LKnee1])
+    pts_dst = np.float32([RHip1, LHip1, LKnee1, RKnee1])
     matrix = cv2.getPerspectiveTransform(pts_src, pts_dst)
 
     # 옷 이미지를 메인 이미지에 변환하여 오버레이

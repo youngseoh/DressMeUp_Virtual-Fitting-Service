@@ -99,14 +99,14 @@ def top(image_path, cloth_path):
 
     # y값 차이 계산
     # LShoulder1, RShoulder1, RWrist1, LWrist1 좌표 수
-    LShoulder1 = (LShoulder[0] - int(x_diffshoulder), LShoulder[1] + int(2.5*y_left))
-    RShoulder1 = (RShoulder[0] + int(x_diffshoulder), RShoulder[1] + int(2.5*y_right))
-    LWrist1 = (LWrist[0] - int(x_diffshoulder), LWrist[1] - int(y_left))
-    RWrist1 = (RWrist[0] + int(x_diffshoulder), RWrist[1] - int(y_right))
+    LShoulder1 = (LShoulder[0] - int(x_diffshoulder), LShoulder[1] + int(2*y_left))
+    RShoulder1 = (RShoulder[0] + int(x_diffshoulder), RShoulder[1] + int(2*y_right))
+    LWrist1 = (LWrist[0] - int(x_diffshoulder), LWrist[1] )
+    RWrist1 = (RWrist[0] + int(x_diffshoulder), RWrist[1] )
 
     # 변환 행렬 계산
     pts_src = np.float32([[0, 0], [cloth.shape[1], 0], [cloth.shape[1], cloth.shape[0]], [0, cloth.shape[0]]])
-    pts_dst = np.float32([LShoulder1, RShoulder1, RWrist1, LWrist1])
+    pts_dst = np.float32([RShoulder1, LShoulder1, LWrist1, RWrist1])
     matrix = cv2.getPerspectiveTransform(pts_src, pts_dst)
 
     # 옷 이미지를 메인 이미지에 변환하여 오버레이

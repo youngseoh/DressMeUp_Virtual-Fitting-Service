@@ -105,7 +105,7 @@ def longpants_skirt(image_path, cloth_path):
 
     # 변환 행렬 계산
     pts_src = np.float32([[0, 0], [cloth.shape[1], 0], [cloth.shape[1], cloth.shape[0]], [0, cloth.shape[0]]])
-    pts_dst = np.float32([LHip1, RHip1, RAnkle1, LAnkle1])
+    pts_dst = np.float32([RHip1, LHip1, LAnkle1, RAnkle1])
     matrix = cv2.getPerspectiveTransform(pts_src, pts_dst)
 
     # 옷 이미지를 메인 이미지에 변환하여 오버레이
