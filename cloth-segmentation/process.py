@@ -26,7 +26,7 @@ def load_checkpoint(model, checkpoint_path):
         new_state_dict[name] = v
 
     model.load_state_dict(new_state_dict)
-    print("----checkpoints loaded from path: {}----".format(checkpoint_path))
+    # print("----checkpoints loaded from path: {}----".format(checkpoint_path))
     return model
 
 
@@ -51,7 +51,7 @@ def get_palette(num_cls):
             palette[j * 3 + 2] |= (((lab >> 2) & 1) << (7 - i))
             i += 1
             lab >>= 3
-    print(palette)
+    # print(palette)
     return palette
 
 
@@ -140,7 +140,7 @@ def generate_mask(input_image, net, palette, device = 'cpu'):
     # Save final cloth segmentations
     cloth_seg = Image.fromarray(output_arr[0].astype(np.uint8), mode='P')
     cloth_seg.putpalette(palette)
-    print(cloth_seg)
+    # print(cloth_seg)
     cloth_seg = cloth_seg.resize(img_size, Image.BICUBIC)
     cloth_seg.save(os.path.join(cloth_seg_out_dir, 'final_seg.png'))
     return cloth_seg
