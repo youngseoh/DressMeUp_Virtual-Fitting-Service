@@ -25,6 +25,7 @@ from PIL import Image
 # result="bottom"
 
 
+#
 def process_cloth_image(cloth_parsing_path, cloth_path, result):
 
   if result=="top":

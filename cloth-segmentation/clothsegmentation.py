@@ -12,27 +12,27 @@ Original file is located at
 
 import subprocess
 
+
 def run_commands(image_path):
     # process.py 실행
     process_command = f"python process.py --image \"{image_path}\""
     subprocess.run(process_command, shell=True)
-
+    print("run_commands - process.py 실행")
     # app.py 실행
-    app_command = "python app.py"
-    subprocess.run(app_command, shell=True)
-
-# 함수 실행
-# image_path = "/content/drive/MyDrive/dressmeup/cloth-segmentation/input/반바지1.jpg"
-# run_commands(image_path)
+    # app_command = "python app.py"
+    # subprocess.run(app_command, shell=True)
+    print("run_commands - python app.py 실행")
 
 
 
 import cv2
 
+
 def check_colors_in_image_cv(image_path):
+    print("check_colors_in_image_cv")
+
     img_rgb = cv2.imread(image_path)
 
-    
     red_lower = (0, 0, 100)
     red_upper = (100, 100, 255)
 
@@ -42,18 +42,17 @@ def check_colors_in_image_cv(image_path):
     cyan_lower = (0, 100, 100)
     cyan_upper = (255, 150, 150)
 
-    
+
     red_mask = cv2.inRange(img_rgb, red_lower, red_upper)
     green_mask = cv2.inRange(img_rgb, green_lower, green_upper)
     cyan_mask = cv2.inRange(img_rgb, cyan_lower, cyan_upper)
 
-    
+
     red_found = cv2.countNonZero(red_mask)
     green_found = cv2.countNonZero(green_mask)
     cyan_found = cv2.countNonZero(cyan_mask)
 
     
-
     if sum(x > 0 for x in [red_found, green_found, cyan_found]) >= 2:
         areas = [red_found, green_found, cyan_found]
         max_area_index = areas.index(max(areas))
@@ -65,6 +64,7 @@ def check_colors_in_image_cv(image_path):
             a = "bottom"
 
     else:
+
       if red_found:
         a = "top"
       elif cyan_found:
