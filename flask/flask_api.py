@@ -132,6 +132,7 @@ def clothImage():
 
         run_commands(image_path)
         app.logger.info('run_commands')
+        print("run_commands")
 
         clothType = check_colors_in_image_cv(
             "C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/output/cloth_seg/final_seg.png")
@@ -147,8 +148,8 @@ def clothImage():
         print("image_pil")
 
         # 이미지 모드를 RGB로 변환
-        # if image_pil.mode == 'RGBA':
-        #     image_pil = image_pil.convert('RGB')
+        if image_pil.mode == 'RGBA':
+            image_pil = image_pil.convert('RGB')
 
         image_bytes_io = BytesIO()
         print("BytesIO")
@@ -182,29 +183,37 @@ def dressUp():
     try:
         dressUp_model = request.files['file']
         dressUp_cloth = request.files['cloth_file']
-        clothId = request.form['clothId']
+        clothId = request.form['clothId']  # 옷 타입
         print("request")
 
-        model_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_model_image.jpg"  # 적절한 경로로 변경하세요
-        cloth_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_cloth_image.jpg"  # 적절한 경로로 변경하세요
+        model_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_model_image.jpg"
+        cloth_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_cloth_image.jpg"
         dressUp_model.save(model_image_path)
         dressUp_cloth.save(cloth_image_path)
 
-        clothType = predict_class(dressUp_cloth)
-        print(clothType)
+        print(clothId)
+        if clothId != 'TOP':
+            clothType = predict_class(dressUp_cloth)
+        else:
+            clothType = 6
+
+        # clothType = predict_class(dressUp_cloth)
+        # print(clothType)
 
         if clothType == 2 or clothType == 1:
-            # print("dressUpImage 이전")
+            print("dressUpImage 이전")
             dressUpImage = longpants_skirt(model_image_path, cloth_image_path)
-            # print("dressUpImage 완료")
+            print("dressUpImage 완료")
         elif clothType == 5 or clothType == 4:
-            dressUpImage = shortpants_skirt(dressUp_model, dressUp_cloth)
+            dressUpImage = shortpants_skirt(model_image_path, cloth_image_path)
         elif clothType == 0:
-            dressUpImage = longdress(dressUp_model, dressUp_cloth)
+            dressUpImage = longdress(model_image_path, cloth_image_path)
         elif clothType == 3:
-            dressUpImage = shortdress(dressUp_model, dressUp_cloth)
+            dressUpImage = shortdress(model_image_path, cloth_image_path)
         else:
-            dressUpImage = top(dressUp_model, dressUp_cloth)
+            print("dressUpImage 이전")
+            dressUpImage = top(model_image_path, cloth_image_path)
+            print("dressUpImage 완료")
 
         s3_url = upload_image_to_s3_with_path(dressUpImage, f"dressUp_image_{uuid.uuid4().hex}.jpg")
 
