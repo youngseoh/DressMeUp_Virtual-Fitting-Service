@@ -20,6 +20,7 @@ from PIL import Image
 from io import BytesIO
 import uuid
 import logging
+import cv2
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB까지 허용 (원하는 크기로 조절 가능)
@@ -144,7 +145,7 @@ def clothImage():
         image_np = process_cloth_image(
             "C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/output/cloth_seg/final_seg.png", image_path, clothType)
         print("image_np")
-        image_pil = Image.fromarray(image_np)
+        image_pil = Image.fromarray(cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB))
         print("image_pil")
 
         # 이미지 모드를 RGB로 변환
@@ -163,6 +164,13 @@ def clothImage():
         
         if clothType == 'DRESS,SKIRT':
             clothType = 'DRESS'
+            
+        if clothType != 'TOP':
+            original = predict_class(cloth_image)
+
+            print("clothType : " + str(clothType))
+        else:
+            clothType = 6
 
 
         if s3_url:
@@ -178,7 +186,7 @@ def clothImage():
             cursor.close()
             db_connection.close()
             clothType = clothType.upper()
-        return jsonify({'s3_url': s3_url, 'clothType': clothType}), 200
+        return jsonify({'s3_url': s3_url, 'clothType': clothType, 'original': str(original)}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -189,7 +197,8 @@ def dressUp():
     try:
         dressUp_model = request.files['file']
         dressUp_cloth = request.files['cloth_file']
-        clothId = request.form['clothId']  # 옷 타입
+        clothId = request.form['clothId']  # 옷 타입'
+        clothType = request.form['original']  # 숫자
         print("request")
 
         model_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_model_image.jpg"
@@ -198,26 +207,26 @@ def dressUp():
         dressUp_cloth.save(cloth_image_path)
 
         print(clothId)
-        if clothId != 'TOP':
-            clothType = predict_class(dressUp_cloth)
+        # if clothId != 'TOP':
+        #     clothType = predict_class(dressUp_cloth)
 
-            print("clothType : " + str(clothType))
-        else:
-            clothType = 6
+        #     print("clothType : " + str(clothType))
+        # else:
+        #     clothType = 6
 
 
         # clothType = predict_class(dressUp_cloth)
         # print(clothType)
 
-        if clothType == 2 or clothType == 1:
+        if clothType == "2" or clothType == "1":
             print("dressUpImage 이전")
             dressUpImage = longpants_skirt(model_image_path, cloth_image_path)
             print("dressUpImage 완료")
-        elif clothType == 5 or clothType == 4:
+        elif clothType == "5" or clothType == "4":
             dressUpImage = shortpants_skirt(model_image_path, cloth_image_path)
-        elif clothType == 0:
+        elif clothType == "0":
             dressUpImage = longdress(model_image_path, cloth_image_path)
-        elif clothType == 3:
+        elif clothType == "3":
             dressUpImage = shortdress(model_image_path, cloth_image_path)
         else:
             print("dressUpImage 이전")
