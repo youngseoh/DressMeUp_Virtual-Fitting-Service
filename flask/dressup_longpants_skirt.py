@@ -62,6 +62,11 @@ def longpants_skirt(image_path, cloth_path):
             y = (frameHeight * point[1]) / out.shape[2]
             points.append((int(x), int(y)) if conf > thr else None)
 
+        if  points[BODY_PARTS["RHip"]][0]> points[BODY_PARTS["LHip"]][0]:
+            a=points[BODY_PARTS["RHip"]]
+            points[BODY_PARTS["RHip"]]=points[BODY_PARTS["LHip"]]
+            points[BODY_PARTS["LHip"]]=a
+
         for pair in POSE_PAIRS:
             partFrom = pair[0]
             partTo = pair[1]
