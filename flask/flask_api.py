@@ -82,9 +82,6 @@ def home():
 @app.route('/model', methods=['PATCH'])
 def modelImage():
     try:
-        app.logger.info('This is an info message.')
-        app.logger.info(request.json)
-        app.logger.info(request.files)
         # file = request.files['file'].read()  # 전송받은 파일 데이터 읽어서
         # 유저 id같이 넘어옴(body에 이미지랑 같이 담겨서)
         # data = request.json
@@ -93,6 +90,8 @@ def modelImage():
 
         person_image = request.files['file']
         userId = request.form['userId']
+
+        print("userId :" + str(userId))
 
         # ml 사람 누끼따는 함수. 이미지 바이트로 변환
         image_pil = person_segmentation.segment_person(person_image)
@@ -114,9 +113,10 @@ def modelImage():
             # 연결 닫기
             cursor.close()
             db_connection.close()
-        return jsonify({'image': s3_url}), 200
+        return s3_url, 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return str(e), 500
+
 
 
 # 옷 이미지 받아서 db에 insert
@@ -160,6 +160,10 @@ def clothImage():
         print("seek")
         s3_url = upload_image_to_s3(image_bytes_io, f"{userId}_cloth_image_{uuid.uuid4().hex}.jpg")
         print("upload_image_to_s3")
+        
+        if clothType == 'DRESS,SKIRT':
+            clothType = 'DRESS'
+
 
         if s3_url:
             db_connection = connection()
@@ -173,7 +177,9 @@ def clothImage():
             # 연결 닫기
             cursor.close()
             db_connection.close()
-        return jsonify({'image': s3_url}), 200
+            clothType = clothType.upper()
+        return jsonify({'s3_url': s3_url, 'clothType': clothType}), 200
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -194,8 +200,11 @@ def dressUp():
         print(clothId)
         if clothId != 'TOP':
             clothType = predict_class(dressUp_cloth)
+
+            print("clothType : " + str(clothType))
         else:
             clothType = 6
+
 
         # clothType = predict_class(dressUp_cloth)
         # print(clothType)
@@ -218,10 +227,10 @@ def dressUp():
         s3_url = upload_image_to_s3_with_path(dressUpImage, f"dressUp_image_{uuid.uuid4().hex}.jpg")
 
         print(s3_url)
-
-        return jsonify({'image': s3_url}), 200
+        return s3_url, 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return str(e), 500
+
 
 
 if __name__ == '__main__':
