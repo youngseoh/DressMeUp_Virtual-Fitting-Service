@@ -93,8 +93,8 @@ def shortpants_skirt(image_path, cloth_path):
     LHip, RHip, RKnee, LKnee, image = poseDetector(image)
 
     # x 값 차이 계산
-    x_diffhip = (RHip[0] - LHip[0]) * 0.8
-    x_diffknee= (RKnee[0] -LKnee[0]) * 0.8
+    x_diffhip = (RHip[0] - LHip[0]) * 0.7
+    x_diffknee= (RKnee[0] -LKnee[0]) * 0.7
 
     # y 값 차이 계산
     y_left = (LHip[1]-LKnee[1]) * 0.1
