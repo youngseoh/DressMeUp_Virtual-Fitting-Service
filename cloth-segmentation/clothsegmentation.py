@@ -25,6 +25,7 @@ def run_commands(image_path):
 
 
 
+
 import cv2
 
 
@@ -32,6 +33,7 @@ def check_colors_in_image_cv(image_path):
     print("check_colors_in_image_cv")
 
     img_rgb = cv2.imread(image_path)
+
 
     red_lower = (0, 0, 100)
     red_upper = (100, 100, 255)
@@ -67,10 +69,11 @@ def check_colors_in_image_cv(image_path):
 
       if red_found:
         a = "top"
-      elif cyan_found:
-         a = "dress,skirt"
-      else:
+    elif cyan_found:
+        a = "dress,skirt"
+    else:
         a = "bottom"
+
     return a
 
 # # Example usage
