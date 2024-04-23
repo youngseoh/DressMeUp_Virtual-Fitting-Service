@@ -55,7 +55,9 @@ def upload_image_to_s3(file_data, file_name):
 def upload_image_to_s3_with_path(image_data, file_name):
     try:
         # 이미지 데이터를 Pillow의 Image 객체로 변환
-        image = Image.fromarray(image_data)
+        # image = Image.fromarray(image_data)
+        image = Image.fromarray(cv2.cvtColor(image_data, cv2.COLOR_BGR2RGB))
+
 
         # 이미지를 BytesIO 객체에 저장
         image_buffer = BytesIO()
@@ -102,6 +104,7 @@ def modelImage():
 
         # s3에 업로드하고 url 받아오기
         s3_url = upload_image_to_s3(image_bytes_io, f"{userId}_model_image_{uuid.uuid4().hex}.jpg")
+        print("s3_url")
 
         if s3_url:
             db_connection = connection()
@@ -145,6 +148,8 @@ def clothImage():
         image_np = process_cloth_image(
             "C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/output/cloth_seg/final_seg.png", image_path, clothType)
         print("image_np")
+        
+        # image_pil = Image.fromarray(image_np)
         image_pil = Image.fromarray(cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB))
         print("image_pil")
 
@@ -162,30 +167,20 @@ def clothImage():
         s3_url = upload_image_to_s3(image_bytes_io, f"{userId}_cloth_image_{uuid.uuid4().hex}.jpg")
         print("upload_image_to_s3")
         
-        if clothType == 'DRESS,SKIRT':
+        if clothType == 'dress,skirt':
             clothType = 'DRESS'
-            
+        
+        clothType = clothType.upper()
         if clothType != 'TOP':
             original = predict_class(cloth_image)
 
             print("clothType : " + str(clothType))
         else:
+            print("else ")
             clothType = 6
 
-
-        if s3_url:
-            db_connection = connection()
-            cursor = db_connection.cursor()
-            clothType = clothType.upper()  # 모두 대문자로 변경
-            query = 'INSERT INTO cloth (user_id, image, clothType) VALUES (%s, %s, %s)'
-
-            cursor.execute(query, (userId, s3_url, clothType))
-            db_connection.commit()
-
-            # 연결 닫기
-            cursor.close()
-            db_connection.close()
-            clothType = clothType.upper()
+        print(str(clothType))
+        print(s3_url)
         return jsonify({'s3_url': s3_url, 'clothType': clothType, 'original': str(original)}), 200
 
     except Exception as e:
@@ -202,32 +197,30 @@ def dressUp():
         print("request")
 
         model_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_model_image.jpg"
+        # print(model_image_path.shape)
         cloth_image_path = f"C:/Users/kate2/PycharmProjects/DressMeUp-CV/flask/{uuid.uuid4().hex}_cloth_image.jpg"
         dressUp_model.save(model_image_path)
         dressUp_cloth.save(cloth_image_path)
 
         print(clothId)
-        # if clothId != 'TOP':
-        #     clothType = predict_class(dressUp_cloth)
 
-        #     print("clothType : " + str(clothType))
-        # else:
-        #     clothType = 6
-
-
-        # clothType = predict_class(dressUp_cloth)
-        # print(clothType)
 
         if clothType == "2" or clothType == "1":
             print("dressUpImage 이전")
             dressUpImage = longpants_skirt(model_image_path, cloth_image_path)
             print("dressUpImage 완료")
         elif clothType == "5" or clothType == "4":
+            print("dressUpImage 이전")
             dressUpImage = shortpants_skirt(model_image_path, cloth_image_path)
+            print("dressUpImage 완료")
         elif clothType == "0":
+            print("dressUpImage 이전")
             dressUpImage = longdress(model_image_path, cloth_image_path)
+            print("dressUpImage 완료")
         elif clothType == "3":
+            print("dressUpImage 이전")
             dressUpImage = shortdress(model_image_path, cloth_image_path)
+            print("dressUpImage 완료")
         else:
             print("dressUpImage 이전")
             dressUpImage = top(model_image_path, cloth_image_path)
