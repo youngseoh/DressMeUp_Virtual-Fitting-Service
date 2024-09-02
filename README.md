@@ -6,10 +6,6 @@
 Virtual Fitting Service - In situations where trying on clothes in person is difficult, this service allows users to virtually fit clothes onto their bodies
 Users can take a photo of their own body and the clothes they wish to try on, and then virtually fit the desired clothes onto their body
 
-Paper :  https://drive.google.com/file/d/1EEZoP1VqdNANrr5gB7EhlFGED81QMj5B/view?usp=drive_link
-
-Poster : https://drive.google.com/file/d/1LLkyGkHdOTKSeeuyCAI3LDPxRwPu6AcW/view?usp=sharing
-
 ## Contributors
 
 FE : 숙명여자대학교 IT공학전공20 신경원
